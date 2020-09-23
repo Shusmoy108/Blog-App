@@ -1,0 +1,52 @@
+# For Nodejs Part
+/NodeServer/node_modules
+
+/NodeServer/package-lock.json
+
+/NodeServer/settings/config.js
+
+
+# For Flutter Part
+# Miscellaneous
+flutternodeboilerplate*.class
+flutternodeboilerplate/*.log
+flutternodeboilerplate/*.pyc
+flutternodeboilerplate/*.swp
+flutternodeboilerplate/.DS_Store
+flutternodeboilerplate/.atom/
+flutternodeboilerplate/.buildlog/
+flutternodeboilerplate/.history
+flutternodeboilerplate/.svn/
+
+# IntelliJ related
+flutternodeboilerplate/*.iml
+flutternodeboilerplate/*.ipr
+flutternodeboilerplate/*.iws
+flutternodeboilerplate/.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+flutternodeboilerplate/**/doc/api/
+flutternodeboilerplate/.dart_tool/
+flutternodeboilerplate/.flutter-plugins
+flutternodeboilerplate/.flutter-plugins-dependencies
+flutternodeboilerplate/.packages
+flutternodeboilerplate/.pub-cache/
+flutternodeboilerplate/.pub/
+flutternodeboilerplate/build/
+
+# Web related
+flutternodeboilerplate/lib/generated_plugin_registrant.dart
+
+# Symbolication related
+flutternodeboilerplate/app.*.symbols
+
+# Obfuscation related
+flutternodeboilerplate/app.*.map.json
+
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
