@@ -1,6 +1,6 @@
+import 'package:blogapp/src/views/pages/home/homepage.dart';
+import 'package:blogapp/src/views/pages/login/loginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:blogapp/src/pages/home/homepage.dart';
-import 'package:blogapp/src/pages/login/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {

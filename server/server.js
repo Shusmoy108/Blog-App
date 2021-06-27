@@ -7,19 +7,29 @@ const port = process.env.PORT || 5000;
 const config = require("./settings/config");
 
 const app = express();
-
+const { MongoClient } = require('mongodb');
+const uri = "mongodb+srv://shusmoy13:Sucharita13@cluster0.apbbh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  //print(collection);
+  console.error(err);
+  // perform actions on the collection object
+  client.close();
+});
 mongoose.Promise = require("bluebird");
-mongoose
-  .connect(config.dbUrl, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then(() => {
-    // if all is ok we will be here
-    console.log("Db initialized");
-  })
-  .catch((err) => {
-    // if error we will be here
-    console.error("DB starting error");
-    //process.exit(1);
-  });
+// MongoClient
+//   .connect(config.dbUrl, { useUnifiedTopology: true, useNewUrlParser: true })
+//   .then(() => {
+//     // if all is ok we will be here
+//     console.log("Db initialized");
+//   })
+//   .catch((err) => {
+//     // if error we will be here
+//     print(err);
+//     console.error("DB starting error");
+//     //process.exit(1);
+//   });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,7 +44,7 @@ app.use(function (req, res, next) {
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Access-Control-Allow-Headers, Origin,Accept," +
-      "X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+    "X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
   res.setHeader("Cache-Control", "no-cache");
   next();

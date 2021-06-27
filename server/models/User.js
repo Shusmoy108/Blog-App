@@ -8,4 +8,23 @@ const ProfilesSchema = new Schema({
   password: String,
 });
 
+ProfilesSchema.statics.addUser = function (name, mobile, password, cb) {
+  if (name) {
+    const User = new this();
+    User.name = name;
+    User.mobile = mobile;
+    User.password = password;
+    User.save(function (err, Blog) {
+      if (err) {
+        console.log(err);
+        cb(err, null);
+      } else {
+        console.log(User);
+        cb(null, User);
+      }
+    });
+  } else {
+    cb("Fill Up All Details", null);
+  }
+};
 module.exports = mongoose.model("Profiles", ProfilesSchema);

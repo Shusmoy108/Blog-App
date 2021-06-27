@@ -1,5 +1,5 @@
+import 'package:blogapp/src/views/pages/login/loginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:blogapp/src/pages/login/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
@@ -22,8 +22,6 @@ class _HomeState extends State<Home> {
     Home(""),
     Home(""),
   ];
-
-
 
   logout() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -70,19 +68,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-
-
-
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-  final snackBar = SnackBar(
 
+  final snackBar = SnackBar(
     content: Text("Snack Bar"),
     //backgroundColor: Colors.red,
     duration: Duration(seconds: 3),
@@ -90,29 +83,58 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    String m="Hey user, Your number is "+mobile;
+    String m = "Hey user, Your number is " + mobile;
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.teal,
-
           title: Text("App Name"),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.add),onPressed: (){
-              _scaffoldKey.currentState.showSnackBar(snackBar);
-            },)
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                _scaffoldKey.currentState.showSnackBar(snackBar);
+              },
+            )
           ],
         ),
-        body:Container(
+        body: Container(
           child: ListView(
             children: <Widget>[
-              Text("Normal Font Example",style: TextStyle( fontSize: 20),),
-              Text("ProximaNova Font Example",style: TextStyle(fontFamily: "ProximaNova", fontSize: 20),),
-              Text("ProximaNova Italic style Font Example",style: TextStyle(fontFamily: "ProximaNova", fontSize: 20,fontStyle: FontStyle.italic),),
-              Text("ProximaNova w700 Font Example",style: TextStyle(fontFamily: "ProximaNova", fontSize: 20,fontWeight: FontWeight.w700),),
-              Text(m,style: TextStyle(fontFamily: "ProximaNova", fontSize: 20,fontStyle: FontStyle.italic),),
-              Text("Image Example",style: TextStyle( fontSize: 20,fontWeight: FontWeight.w700),),
+              Text(
+                "Normal Font Example",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "ProximaNova Font Example",
+                style: TextStyle(fontFamily: "ProximaNova", fontSize: 20),
+              ),
+              Text(
+                "ProximaNova Italic style Font Example",
+                style: TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic),
+              ),
+              Text(
+                "ProximaNova w700 Font Example",
+                style: TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              Text(
+                m,
+                style: TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic),
+              ),
+              Text(
+                "Image Example",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              ),
               Card(
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
