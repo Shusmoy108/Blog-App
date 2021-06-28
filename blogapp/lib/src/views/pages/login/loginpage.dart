@@ -11,6 +11,14 @@ class LoginScreenForm extends State<LoginScreen> {
   final TextEditingController numberController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  bool register = false;
+
+  void signUp() {
+    setState(() {
+      register = !register;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,8 +41,10 @@ class LoginScreenForm extends State<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextInput("Mobile Number", numberController),
                 TextInput("User Name", nameController),
+                Visibility(
+                    visible: register,
+                    child: TextInput("Mobile Number", numberController)),
                 TextInput("Password", passwordController),
                 SizedBox(
                   height: 10,
@@ -42,26 +52,50 @@ class LoginScreenForm extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.green),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                    Visibility(
+                        visible: !register,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.green),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ))),
-                      onPressed: () {
-                        UserController().getConnect();
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Log In",
-                            style: TextStyle(
-                                fontFamily: "Lucidasans", fontSize: 20),
-                          )),
-                    ),
+                                borderRadius: BorderRadius.circular(18.0),
+                              ))),
+                          onPressed: () {
+                            UserController().getConnect();
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Log In",
+                                style: TextStyle(
+                                    fontFamily: "Lucidasans", fontSize: 20),
+                              )),
+                        )),
+                    Visibility(
+                        visible: register,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ))),
+                          onPressed: () {
+                            this.signUp();
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "< Back",
+                                style: TextStyle(
+                                    fontFamily: "Lucidasans", fontSize: 20),
+                              )),
+                        )),
                     ElevatedButton(
                       style: ButtonStyle(
                           shape:
@@ -69,7 +103,17 @@ class LoginScreenForm extends State<LoginScreen> {
                                   RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ))),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (!register) {
+                          this.signUp();
+                        } else {
+                          bool x = await UserController().signUp(
+                              nameController.text,
+                              numberController.text,
+                              passwordController.text);
+                          print(x);
+                        }
+                      },
                       child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Text(

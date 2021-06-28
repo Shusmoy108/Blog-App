@@ -26,11 +26,12 @@ apiRouter
   });
 
   apiRouter.post("/add", function (req, res) {
-    
+    console.log(req.body);
     User.addUser (req.body.name, req.body.mobile, req.body.password, function (
       err,
       user
     ) {
+      console.log(user);
       if (err) {
         return res.status(500).send({ success: false, msg: "Server Error." });
       } else {

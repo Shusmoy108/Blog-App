@@ -9,21 +9,24 @@ const ProfilesSchema = new Schema({
 });
 
 ProfilesSchema.statics.addUser = function (name, mobile, password, cb) {
+ 
   if (name) {
     const User = new this();
     User.name = name;
     User.mobile = mobile;
     User.password = password;
-    User.save(function (err, Blog) {
+    User.save(function (err, user) {
+      console.log(err);
       if (err) {
         console.log(err);
         cb(err, null);
       } else {
-        console.log(User);
-        cb(null, User);
+        console.log(user);
+        cb(null, user);
       }
     });
   } else {
+    console.log("User.save");
     cb("Fill Up All Details", null);
   }
 };

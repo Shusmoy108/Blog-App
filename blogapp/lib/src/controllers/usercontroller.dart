@@ -6,4 +6,15 @@ class UserController with ErrorController {
     var res = await BaseClient().get("/api/ola").catchError(handleError);
     print(res);
   }
+
+  Future<bool> signUp(String name, String mobile, String password) async {
+    var res = await BaseClient().post("/api/add", {
+      "name": name,
+      "mobile": mobile,
+      "password": password
+    }).catchError(handleError);
+    print(res);
+    if (res == null) return false;
+    return res["success"];
+  }
 }

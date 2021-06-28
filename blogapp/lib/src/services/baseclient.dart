@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 class BaseClient {
   Future<dynamic> get(String api) async {
     var uri = Uri.parse(SERVER_URL + api);
-    print("uri");
     try {
       var response =
           await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
@@ -21,7 +20,6 @@ class BaseClient {
             "Something Went Wrong. Please try again later.", uri.toString());
       }
     } on SocketException {
-      print(uri);
       throw FetchDataException("No internet connection.", uri.toString());
     } on TimeoutException {
       throw ApiNotRespondingException(
