@@ -26,12 +26,10 @@ apiRouter
   });
 
   apiRouter.post("/add", function (req, res) {
-    console.log(req.body);
     User.addUser (req.body.name, req.body.mobile, req.body.password, function (
       err,
       user
     ) {
-      console.log(user);
       if (err) {
         return res.status(500).send({ success: false, msg: "Server Error." });
       } else {
@@ -43,7 +41,22 @@ apiRouter
           }
         }})
       });
-    
+      apiRouter.post("/login", function (req, res) {
+        User.getUser (req.body.mobile, req.body.password, function (
+          err,
+          user
+        ) {
+          if (err) {
+            return res.status(500).send({ success: false, msg: "Server Error." });
+          } else {
+            //Blogs.getbloglist(function (err, blogs) {
+              if (err) {
+                return res.status(500).send({ success: false, msg: "Server Error." });
+              } else {
+                return res.json({ success: true, data: user });
+              }
+            }})
+          });
       apiRouter.get("/ola", function (req, res) {
         console.log("ola");
         return res.json({ success: true, data: "user" })});

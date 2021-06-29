@@ -1,6 +1,5 @@
 import 'package:blogapp/src/views/pages/login/loginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -24,8 +23,6 @@ class _HomeState extends State<Home> {
   ];
 
   logout() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.clear();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (BuildContext context) {

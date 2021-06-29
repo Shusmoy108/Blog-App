@@ -8,6 +8,22 @@ const ProfilesSchema = new Schema({
   password: String,
 });
 
+ProfilesSchema.statics.getUser = function (mobile,password,cb) {
+  var that = this;
+  this.findOne({"mobile":mobile},function (err, user) {
+    if (err) cb("Server error", null);
+    else {
+      if(user.password==password){
+        cb(null,user);
+      }
+      else{
+        cb("Wrong password", null);
+      }
+     
+    }
+  });
+};
+
 ProfilesSchema.statics.addUser = function (name, mobile, password, cb) {
  
   if (name) {

@@ -41,10 +41,11 @@ class LoginScreenForm extends State<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextInput("User Name", nameController),
+                TextInput("Mobile Number", numberController),
                 Visibility(
-                    visible: register,
-                    child: TextInput("Mobile Number", numberController)),
+                  visible: register,
+                  child: TextInput("User Name", nameController),
+                ),
                 TextInput("Password", passwordController),
                 SizedBox(
                   height: 10,
@@ -63,8 +64,10 @@ class LoginScreenForm extends State<LoginScreen> {
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ))),
-                          onPressed: () {
-                            UserController().getConnect();
+                          onPressed: () async {
+                            bool success = await UserController().logIn(
+                                numberController.text, passwordController.text);
+                            print(success);
                           },
                           child: Padding(
                               padding: EdgeInsets.all(10),

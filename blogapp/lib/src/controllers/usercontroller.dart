@@ -17,4 +17,12 @@ class UserController with ErrorController {
     if (res == null) return false;
     return res["success"];
   }
+
+  Future<bool> logIn(String mobile, String password) async {
+    var res = await BaseClient().post("/api/login",
+        {"mobile": mobile, "password": password}).catchError(handleError);
+    print(res);
+    if (res == null) return false;
+    return res["success"];
+  }
 }
