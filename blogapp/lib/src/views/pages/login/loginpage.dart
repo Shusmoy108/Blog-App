@@ -1,4 +1,5 @@
 import 'package:blogapp/src/controllers/usercontroller.dart';
+import 'package:blogapp/src/views/components/input/passwordinput.dart';
 import 'package:blogapp/src/views/components/input/textinput.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +12,17 @@ class LoginScreenForm extends State<LoginScreen> {
   final TextEditingController numberController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-  bool register = false;
+  bool register = false, obsecure = false;
 
   void signUp() {
     setState(() {
       register = !register;
+    });
+  }
+
+  void changeObsecure() {
+    setState(() {
+      obsecure = !obsecure;
     });
   }
 
@@ -46,7 +53,7 @@ class LoginScreenForm extends State<LoginScreen> {
                   visible: register,
                   child: TextInput("User Name", nameController),
                 ),
-                TextInput("Password", passwordController),
+                PasswordInput(obsecure, passwordController, changeObsecure),
                 SizedBox(
                   height: 10,
                 ),

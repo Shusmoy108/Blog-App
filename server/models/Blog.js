@@ -6,6 +6,7 @@ const BlogSchema = new Schema({
   time: Date,
   userName: String,
   userId: mongoose.Types.ObjectId,
+  support:[],
   comments: [
     {
       comment: String,
@@ -18,9 +19,9 @@ const BlogSchema = new Schema({
 BlogSchema.statics.getbloglist = function (cb) {
   var that = this;
   this.find(function (err, blogs) {
-    if (err) cb("Server error", null);
+    if (err) cb(500,"Server error", null);
     else {
-      cb(null, blogs);
+      cb(200,null, blogs);
     }
   });
 };
@@ -33,15 +34,13 @@ BlogSchema.statics.insertBlog = function (blog, user, id, cb) {
     Blog.userId = id;
     Blog.save(function (err, Blog) {
       if (err) {
-        console.log(err);
-        cb(err, null);
+        cb(500,err, null);
       } else {
-        console.log(Blog);
-        cb(null, Blog);
+        cb(200,null, Blog);
       }
     });
   } else {
-    cb("Fill Up All Details", null);
+    cb(401,"Fill Up All Details", null);
   }
 };
 module.exports = mongoose.model("Blog", BlogSchema);

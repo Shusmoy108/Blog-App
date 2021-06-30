@@ -1,47 +1,62 @@
+import 'package:blogapp/src/views/components/input/bloginput.dart';
+import 'package:blogapp/src/views/components/input/textinput.dart';
 import 'package:blogapp/src/views/pages/login/loginpage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
-  String mobile;
-  Home(this.mobile);
-
   @override
-  _HomeState createState() => _HomeState(mobile);
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  String mobile;
-  _HomeState(this.mobile);
-  int _selectedIndex = 0;
-  var pages = [
-    Home(""),
-    Home(""),
-    //ExamlistPage(),
-    Home(""),
-    Home(""),
-  ];
-
   logout() async {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return LoginScreen();
-        },
-      ),
-    );
+    Get.off(LoginScreen());
   }
 
-  Widget logoutButton() {
+  final TextEditingController textEditingController =
+      new TextEditingController();
+  Widget addblog() {
     return InkWell(
       onTap: () {
-        logout();
+        Get.bottomSheet(Container(
+          color: Colors.grey.shade300,
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: [
+              Center(
+                  child: Text("Post Your Blog",
+                      style: TextStyle(
+                        fontFamily: "Lucidasans",
+                        fontSize: 18,
+                        color: Colors.black,
+                      ))),
+              Divider(
+                thickness: 2,
+                color: Colors.black,
+              ),
+              BlogInput(textEditingController),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Post",
+                          style: TextStyle(
+                            fontFamily: "Lucidasans",
+                          )))
+                ],
+              )
+            ],
+          ),
+        ));
       },
       child: Container(
         width: 100,
         height: 40,
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(30.0),
           boxShadow: [
             //BoxShadow(color: Colors.grey, offset: Offset(1, 2)),
@@ -52,9 +67,11 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Logout',
+              'Add Blog',
               style: TextStyle(
-                  color: Colors.white, fontSize: 15.0, fontFamily: 'Merienda'),
+                  color: Colors.white,
+                  fontSize: 15.0,
+                  fontFamily: 'Lucidasans'),
             ),
             SizedBox(
               width: 0.0,
@@ -65,115 +82,21 @@ class _HomeState extends State<Home> {
     );
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final snackBar = SnackBar(
-    content: Text("Snack Bar"),
-    //backgroundColor: Colors.red,
-    duration: Duration(seconds: 3),
-  );
-
   @override
   Widget build(BuildContext context) {
-    String m = "Hey user, Your number is " + mobile;
     return Scaffold(
-        key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.teal,
-          title: Text("App Name"),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _scaffoldKey.currentState.showSnackBar(snackBar);
-              },
-            )
-          ],
-        ),
-        body: Container(
-          child: ListView(
-            children: <Widget>[
-              Text(
-                "Normal Font Example",
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "ProximaNova Font Example",
-                style: TextStyle(fontFamily: "ProximaNova", fontSize: 20),
-              ),
-              Text(
-                "ProximaNova Italic style Font Example",
-                style: TextStyle(
-                    fontFamily: "ProximaNova",
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic),
-              ),
-              Text(
-                "ProximaNova w700 Font Example",
-                style: TextStyle(
-                    fontFamily: "ProximaNova",
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              Text(
-                m,
-                style: TextStyle(
-                    fontFamily: "ProximaNova",
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic),
-              ),
-              Text(
-                "Image Example",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Image.asset(
-                  'images/joker.jpg',
-                  fit: BoxFit.fill,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.all(10),
-              ),
-            ],
+          title: Text(
+            "BlogApp",
+            style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontFamily: "Lucidasans",
+                fontWeight: FontWeight.bold),
           ),
+          centerTitle: true,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.teal,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.class_),
-              title: Text('Components'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.pages),
-              title: Text('Pages'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.stars),
-              title: Text('Achievement'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.contact_mail),
-              title: Text('Contact Us'),
-            ),
-          ],
-          unselectedItemColor: Colors.white,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ),
-        floatingActionButton: logoutButton());
+        body: Container(),
+        floatingActionButton: addblog());
   }
 }

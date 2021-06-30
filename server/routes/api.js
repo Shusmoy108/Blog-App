@@ -50,11 +50,8 @@ apiRouter
             return res.status(500).send({ success: false, msg: "Server Error." });
           } else {
             //Blogs.getbloglist(function (err, blogs) {
-              if (err) {
-                return res.status(500).send({ success: false, msg: "Server Error." });
-              } else {
                 return res.json({ success: true, data: user });
-              }
+              
             }})
           });
       apiRouter.get("/ola", function (req, res) {

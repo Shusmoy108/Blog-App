@@ -15,15 +15,16 @@ blogRouter.get("/show", function (req, res) {
 });
 
 blogRouter.post("/add", function (req, res) {
-  console.log(req.body.blog);
   Blogs.insertBlog(req.body.blog, req.body.user, req.body.id, function (
+    status,
     err,
     blog
   ) {
     if (err) {
       return res.status(500).send({ success: false, msg: "Server Error." });
     } else {
-      Blogs.getbloglist(function (err, blogs) {
+      console.log(blogs);
+      Blogs.getbloglist(function (status,err, blogs) {
         if (err) {
           return res.status(500).send({ success: false, msg: "Server Error." });
         } else {
