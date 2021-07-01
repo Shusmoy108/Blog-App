@@ -6,7 +6,10 @@ const BlogSchema = new Schema({
   time: Date,
   userName: String,
   userId: mongoose.Types.ObjectId,
-  support:[],
+  supports:[{  
+    userName: String,
+    time: { type: Date, default: Date.now },
+    userId: mongoose.Types.ObjectId,}],
   comments: [
     {
       comment: String,
@@ -42,5 +45,103 @@ BlogSchema.statics.insertBlog = function (blog, user, id, cb) {
   } else {
     cb(401,"Fill Up All Details", null);
   }
+};
+
+BlogSchema.statics.addComment = function (comment ,blogid,cb) {
+  var that = this;
+
+  this.findByIdAndUpdate( blogid,
+    { $push: { comments:comment } },
+    { safe: true, upsert: true },
+    function (err, model) {
+      if (err) {
+        console.log(err);
+        cb(500,err, null);
+      } else {
+
+            cb(200,null, model);}
+          
+        
+      
+    });
+    
+};
+BlogSchema.statics.addSupport = function (support ,blogid,name,cb) {
+  var that = this;
+  // that.findByIdAndUpdate(
+  //    blogid,  
+  //   {$set:{
+  //     supports:{
+  //         $cond:{
+  //           if: {$in: ["name", "$supports.userName"]},
+  //           then: "$supports",
+  //           else: {$concatArrays: ["$supports", [support]]}
+  //         }
+  //     }}},
+  //   // { safe: true, upsert: true },
+  //   function (err, model) {
+  //     if (err) {
+  //       console.log(err);
+  //       cb(500,err, null);
+  //     } else {
+
+  //           cb(200,null, model);}
+          
+        
+      
+  //   });
+  
+    that.findById(blogid,
+   function(err, blog){
+    console.log(blog.supports);
+    let found=false;
+    for (var i=0; i < blog.supports.length; i++) {
+      if (blog.supports[i].userName ===name) {
+          found=true;
+          break;
+      }
+  }
+   
+    console.log(found);
+    if(!found){
+      
+      that.findByIdAndUpdate( blogid,
+        { $push: { supports:support } },
+        { safe: true, upsert: true },
+        function (err, model) {
+
+          if (err) {
+            console.log(err);
+            cb(500,err, null);
+          } else {
+    
+                cb(200,null, model);}
+              
+            
+          
+        });
+    }
+    else{
+      cb(400,"Already supported", null);
+    }
+    
+   
+     
+  });
+  // that.updateOne( {_id:mongoose.Types.ObjectId(blogid),'supports.userName':{$ne: name}},
+  //   { $push: { supports:support } },
+  //   { safe: true, upsert: true },
+  //   function (err, model) {
+  //     if (err) {
+  //       console.log(err);
+  //       cb(500,err, null);
+  //     } else {
+
+  //           cb(200,null, model);}
+          
+        
+      
+  //   });
+    
 };
 module.exports = mongoose.model("Blog", BlogSchema);
