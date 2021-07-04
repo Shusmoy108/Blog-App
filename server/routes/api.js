@@ -27,32 +27,50 @@ apiRouter
 
   apiRouter.post("/add", function (req, res) {
     User.addUser (req.body.name, req.body.mobile, req.body.password, function (
+      status,
       err,
       user
     ) {
-      if (err) {
-        return res.status(500).send({ success: false, msg: "Server Error." });
-      } else {
+      if(status===200){
         //Blogs.getbloglist(function (err, blogs) {
-          if (err) {
-            return res.status(500).send({ success: false, msg: "Server Error." });
-          } else {
-            return res.json({ success: true, data: user });
-          }
-        }})
+          return res.json({ success: true, data: user });
+      }
+      else if (status===400) {
+        //Blogs.getbloglist(function (err, blogs) {
+          return res.json({ success: false, data: user });
+      }
+      else{
+        
+          return res.status(500).send({ success: false, msg: "Server Error." });
+        
+      }
+    } 
+        
+        )
       });
       apiRouter.post("/login", function (req, res) {
+       
         User.getUser (req.body.mobile, req.body.password, function (
+          status,
           err,
           user
         ) {
-          if (err) {
-            return res.status(500).send({ success: false, msg: "Server Error." });
-          } else {
-            //Blogs.getbloglist(function (err, blogs) {
+         
+            if(status===200){
+              //Blogs.getbloglist(function (err, blogs) {
                 return res.json({ success: true, data: user });
+            }
+            else if (status===400) {
+              //Blogs.getbloglist(function (err, blogs) {
+                return res.json({ success: false, data: user });
+            }
+            else{
               
-            }})
+                return res.status(500).send({ success: false, msg: "Server Error." });
+              
+            }
+              
+            })
           });
       apiRouter.get("/ola", function (req, res) {
         console.log("ola");

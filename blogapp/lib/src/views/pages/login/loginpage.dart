@@ -1,7 +1,9 @@
 import 'package:blogapp/src/controllers/usercontroller.dart';
 import 'package:blogapp/src/views/components/input/passwordinput.dart';
 import 'package:blogapp/src/views/components/input/textinput.dart';
+import 'package:blogapp/src/views/pages/home/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -74,7 +76,9 @@ class LoginScreenForm extends State<LoginScreen> {
                           onPressed: () async {
                             bool success = await UserController().logIn(
                                 numberController.text, passwordController.text);
-                            print(success);
+                            if (success) {
+                              Get.offAll(Home());
+                            }
                           },
                           child: Padding(
                               padding: EdgeInsets.all(10),
@@ -121,7 +125,9 @@ class LoginScreenForm extends State<LoginScreen> {
                               nameController.text,
                               numberController.text,
                               passwordController.text);
-                          print(x);
+                          if (x) {
+                            Get.offAll(Home());
+                          }
                         }
                       },
                       child: Padding(

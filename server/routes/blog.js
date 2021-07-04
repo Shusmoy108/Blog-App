@@ -13,7 +13,18 @@ blogRouter.get("/show", function (req, res) {
     }
   });
 });
-
+blogRouter.get("/myblog/:id", function (req, res) {
+ console.log(req.params.id);
+  Blogs.getmybloglist(req.params.id,function (status,err, blogs) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ success: false, msg: "Server Error." });
+    } else {
+      console.log(blogs);
+      return res.json({ success: true, data: blogs });
+    }
+  });
+});
 blogRouter.post("/add", function (req, res) {
   Blogs.insertBlog(req.body.blog, req.body.user, req.body.id, function (
     status,
@@ -57,6 +68,7 @@ blogRouter.post("/addcomment", function (req, res) {
   var comment = {
     comment: req.body.comment,
     time: Date.now(),
+    mobile:req.body.mobile,
     userName:req.body.user,userId:req.body.id 
   };
   Blogs.addComment(comment, req.body.blogid, function (
@@ -86,10 +98,12 @@ blogRouter.post("/support", function (req, res) {
   var support = {
     time: Date.now(),
     userName:req.body.user,
+    mobile:req.body.mobile,
     userId:req.body.id 
+    
   };
   console.log(support);
-  Blogs.addSupport(support, req.body.blogid,req.body.user, function (
+  Blogs.addSupport(support, req.body.blogid,req.body.mobile, function (
     status,
     err,
     blog

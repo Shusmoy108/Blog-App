@@ -4,6 +4,7 @@ import 'package:blogapp/src/controllers/errorcontroller.dart';
 import 'package:blogapp/src/models/blog.dart';
 import 'package:blogapp/src/services/baseclient.dart';
 import 'package:blogapp/src/views/components/dialogue/dialoguehelper.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:get_storage/get_storage.dart';
@@ -15,6 +16,7 @@ class UserController extends GetxController with ErrorController {
   var name = "".obs;
   var id = "".obs;
   List<Blog> blogs = List<Blog>.empty().obs;
+
   var isLoading = true.obs;
   @override
   void onInit() {
@@ -48,14 +50,28 @@ class UserController extends GetxController with ErrorController {
     var res = await BaseClient().get("/api/ola").catchError(handleError);
   }
 
-  Future<bool> signUp(String name, String mobile, String password) async {
+  Future<bool> signUp(String user, String mobile, String password) async {
     var res = await BaseClient().post("/api/add", {
-      "name": name,
+      "name": user,
       "mobile": mobile,
       "password": password
     }).catchError(handleError);
 
     if (res == null) return false;
+    if (!res['success']) {
+      Get.snackbar("Error", "You are already registered with this number.",
+          backgroundColor: Colors.red);
+    } else {
+      box.write('mobile', mobile);
+      var resp = res['data'];
+      box.write('id', resp['_id']);
+      box.write('name', resp['name']);
+      number.value = box.read("mobile");
+      name.value = box.read("name");
+      id.value = box.read("id");
+      await loadBlog();
+      islogin.value = true;
+    }
     return res["success"];
   }
 
@@ -64,14 +80,20 @@ class UserController extends GetxController with ErrorController {
         {"mobile": mobile, "password": password}).catchError(handleError);
 
     if (res == null) return false;
-    box.write('mobile', mobile);
-    var resp = res['data'];
-    box.write('id', resp['_id']);
-    box.write('name', resp['name']);
-    number.value = box.read("mobile");
-    name.value = box.read("name");
-    id.value = box.read("id");
-    islogin.value = true;
+    if (!res['success']) {
+      Get.snackbar("Error", "You have entered a wrong password",
+          backgroundColor: Colors.red);
+    } else {
+      box.write('mobile', mobile);
+      var resp = res['data'];
+      box.write('id', resp['_id']);
+      box.write('name', resp['name']);
+      number.value = box.read("mobile");
+      name.value = box.read("name");
+      id.value = box.read("id");
+      await loadBlog();
+      islogin.value = true;
+    }
     return res["success"];
   }
 
@@ -89,17 +111,25 @@ class UserController extends GetxController with ErrorController {
       "comment": comment,
       "user": name.value,
       "id": id.value,
-      "blogid": blogId
+      "blogid": blogId,
+      "mobile": number.value
     }).catchError(handleError);
 
     loadBlog();
+  }
+
+  Future myBlogs() async {
+    String api = "/blogs/myblog/" + id.value;
+    var res = await BaseClient().get(api).catchError(handleError);
+    return res;
   }
 
   Future addSupport(String blogId) async {
     var res = await BaseClient().post("/blogs/support", {
       "user": name.value,
       "id": id.value,
-      "blogid": blogId
+      "blogid": blogId,
+      "mobile": number.value
     }).catchError(handleError);
 
     if (!res['success']) {
@@ -115,5 +145,7 @@ class UserController extends GetxController with ErrorController {
 
   void logOut() {
     box.remove('mobile');
+    box.remove('name');
+    box.remove('id');
   }
 }

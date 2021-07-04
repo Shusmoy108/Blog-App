@@ -8,6 +8,7 @@ const BlogSchema = new Schema({
   userId: mongoose.Types.ObjectId,
   supports:[{  
     userName: String,
+    mobile:String,
     time: { type: Date, default: Date.now },
     userId: mongoose.Types.ObjectId,}],
   comments: [
@@ -15,6 +16,7 @@ const BlogSchema = new Schema({
       comment: String,
       time: { type: Date, default: Date.now },
       userName: String,
+      mobile:String,
       userId: mongoose.Types.ObjectId,
     },
   ],
@@ -22,6 +24,15 @@ const BlogSchema = new Schema({
 BlogSchema.statics.getbloglist = function (cb) {
   var that = this;
   this.find(function (err, blogs) {
+    if (err) cb(500,"Server error", null);
+    else {
+      cb(200,null, blogs);
+    }
+  });
+};
+BlogSchema.statics.getmybloglist = function (id,cb) {
+  var that = this;
+  this.find({userId:id},function (err, blogs) {
     if (err) cb(500,"Server error", null);
     else {
       cb(200,null, blogs);
@@ -66,7 +77,7 @@ BlogSchema.statics.addComment = function (comment ,blogid,cb) {
     });
     
 };
-BlogSchema.statics.addSupport = function (support ,blogid,name,cb) {
+BlogSchema.statics.addSupport = function (support ,blogid,mobile,cb) {
   var that = this;
   // that.findByIdAndUpdate(
   //    blogid,  
@@ -96,7 +107,7 @@ BlogSchema.statics.addSupport = function (support ,blogid,name,cb) {
     console.log(blog.supports);
     let found=false;
     for (var i=0; i < blog.supports.length; i++) {
-      if (blog.supports[i].userName ===name) {
+      if (blog.supports[i].mobile ===mobile) {
           found=true;
           break;
       }
