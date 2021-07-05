@@ -1,6 +1,7 @@
 import 'package:blogapp/src/controllers/usercontroller.dart';
 import 'package:blogapp/src/models/blog.dart';
 import 'package:blogapp/src/views/blogcart/blogcart.dart';
+import 'package:blogapp/src/views/components/input/bloginput.dart';
 import 'package:blogapp/src/views/pages/login/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -114,7 +115,83 @@ class _ProfileState extends State<Profile> {
         height: 10,
       ));
     }
+    if (childs.length == 3) {
+      childs
+          .add(Text("You still did not post any blog. Post your first blog."));
+    }
     return childs;
+  }
+
+  final TextEditingController textEditingController =
+      new TextEditingController();
+  Widget addblog() {
+    return InkWell(
+      onTap: () {
+        //logout();
+        Get.bottomSheet(Container(
+          color: Colors.grey.shade300,
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: [
+              Center(
+                  child: Text("Post Your Blog",
+                      style: TextStyle(
+                        fontFamily: "Lucidasans",
+                        fontSize: 18,
+                        color: Colors.black,
+                      ))),
+              Divider(
+                thickness: 2,
+                color: Colors.black,
+              ),
+              BlogInput(textEditingController),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        userController.postBlog(textEditingController.text);
+                        textEditingController.clear();
+                        if (Get.isBottomSheetOpen) Get.back();
+                      },
+                      child: Text("Post",
+                          style: TextStyle(
+                            fontFamily: "Lucidasans",
+                          )))
+                ],
+              )
+            ],
+          ),
+        ));
+      },
+      child: Container(
+        width: 100,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.circular(30.0),
+          boxShadow: [
+            //BoxShadow(color: Colors.grey, offset: Offset(1, 2)),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Add Blog',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                  fontFamily: 'Lucidasans'),
+            ),
+            SizedBox(
+              width: 0.0,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -132,10 +209,10 @@ class _ProfileState extends State<Profile> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(10),
-          child: ListView(
-            children: getBlogs(),
-          ),
-        ));
+            padding: EdgeInsets.all(10),
+            child: ListView(
+              children: getBlogs(),
+            )),
+        floatingActionButton: addblog());
   }
 }
