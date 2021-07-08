@@ -31,7 +31,7 @@ class UserController extends GetxController with ErrorController {
     isLoading.value = false;
   }
 
-  loadBlog() async {
+  Future<bool> loadBlog() async {
     isLoading.value = true;
     var res = await BaseClient().get("/blogs/show").catchError(handleError);
     blogs.clear();
@@ -40,7 +40,7 @@ class UserController extends GetxController with ErrorController {
     }
     isLoading.value = false;
     //blogs = blogList;
-
+    return true;
     //blogs.value = blogList;
   }
 
@@ -67,8 +67,8 @@ class UserController extends GetxController with ErrorController {
       number.value = box.read("mobile");
       name.value = box.read("name");
       id.value = box.read("id");
-      await loadBlog();
-      islogin.value = true;
+
+      islogin.value = await loadBlog();
     }
     return res["success"];
   }
@@ -89,8 +89,9 @@ class UserController extends GetxController with ErrorController {
       number.value = box.read("mobile");
       name.value = box.read("name");
       id.value = box.read("id");
-      await loadBlog();
-      islogin.value = true;
+
+      islogin.value = await loadBlog();
+      print(blogs.length);
     }
     return res["success"];
   }

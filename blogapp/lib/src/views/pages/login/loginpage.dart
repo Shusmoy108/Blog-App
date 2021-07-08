@@ -14,6 +14,7 @@ class LoginScreenForm extends State<LoginScreen> {
   final TextEditingController numberController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final UserController userController = Get.put(UserController());
   bool register = false, obsecure = false;
 
   void signUp() {
@@ -74,7 +75,7 @@ class LoginScreenForm extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(18.0),
                               ))),
                           onPressed: () async {
-                            bool success = await UserController().logIn(
+                            bool success = await userController.logIn(
                                 numberController.text, passwordController.text);
                             if (success) {
                               Get.offAll(Home());
@@ -121,7 +122,7 @@ class LoginScreenForm extends State<LoginScreen> {
                         if (!register) {
                           this.signUp();
                         } else {
-                          bool x = await UserController().signUp(
+                          bool x = await userController.signUp(
                               nameController.text,
                               numberController.text,
                               passwordController.text);

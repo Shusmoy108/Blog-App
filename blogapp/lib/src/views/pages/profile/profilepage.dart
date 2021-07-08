@@ -115,7 +115,7 @@ class _ProfileState extends State<Profile> {
         height: 10,
       ));
     }
-    if (childs.length == 3) {
+    if (childs.length == 4) {
       childs
           .add(Text("You still did not post any blog. Post your first blog."));
     }

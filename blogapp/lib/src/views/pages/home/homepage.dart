@@ -145,7 +145,8 @@ class _HomeState extends State<Home> {
             if (userController.isLoading.value) {
               return Center(child: CircularProgressIndicator());
             } else {
-              if (userController.blogs.length != 0) {
+              print(userController.blogs.length);
+              if (userController.blogs.length > 0) {
                 return ListView.separated(
                   separatorBuilder: (context, i) {
                     return SizedBox(height: 10);
