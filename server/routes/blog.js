@@ -31,6 +31,7 @@ blogRouter.post("/add", function (req, res) {
     err,
     blog
   ) {
+    console.log(req.body);
     if (err) {
       return res.status(500).send({ success: false, msg: "Server Error." });
     } else {

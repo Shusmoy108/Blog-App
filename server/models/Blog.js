@@ -46,8 +46,12 @@ BlogSchema.statics.insertBlog = function (blog, user, id, cb) {
     Blog.time = Date.now();
     Blog.userName = user;
     Blog.userId = id;
+    Blog.comments=[];
+    Blog.supports=[];
     Blog.save(function (err, Blog) {
+      console.log(Blog);
       if (err) {
+        console.log(err);
         cb(500,err, null);
       } else {
         cb(200,null, Blog);
