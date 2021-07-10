@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final UserController userController = Get.find();
+  final UserController userController = Get.put(UserController());
   List<bool> addComment = [];
   logout() async {
     userController.logOut();
@@ -142,28 +142,22 @@ class _HomeState extends State<Home> {
         body: Container(
           padding: EdgeInsets.all(10),
           child: Obx(() {
-            if (userController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
+            if (userController.blogs.length > 0) {
+              return ListView.separated(
+                separatorBuilder: (context, i) {
+                  return SizedBox(height: 10);
+                },
+                itemCount: userController.blogs.length,
+                itemBuilder: (context, i) {
+                  addComment.add(false);
+                  return BlogCart(userController.blogs[i], addComment[i], i,
+                      this.viewCommentBox, this.postcomment, this.support);
+                },
+              );
             } else {
-              print(userController.blogs.length);
-              if (userController.blogs.length > 0) {
-                return ListView.separated(
-                  separatorBuilder: (context, i) {
-                    return SizedBox(height: 10);
-                  },
-                  itemCount: userController.blogs.length,
-                  itemBuilder: (context, i) {
-                    addComment.add(false);
-                    return BlogCart(userController.blogs[i], addComment[i], i,
-                        this.viewCommentBox, this.postcomment, this.support);
-                  },
-                );
-              } else {
-                return Center(
-                  child:
-                      Text("There is no blog at the moment. Post your blog."),
-                );
-              }
+              return Center(
+                child: Text("There is no blog at the moment. Post your blog."),
+              );
             }
           }),
         ),

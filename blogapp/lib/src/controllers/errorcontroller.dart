@@ -3,6 +3,7 @@ import 'package:blogapp/src/views/components/dialogue/dialoguehelper.dart';
 
 class ErrorController {
   void handleError(error) {
+    hideLoading();
     if (error is BadRequestException) {
       var message = error.message;
       DialogueHelper.showDialogue(message: message);
@@ -13,5 +14,13 @@ class ErrorController {
       var message = error.message;
       DialogueHelper.showDialogue(message: message);
     }
+  }
+
+  void showLoading() {
+    DialogueHelper.showLoading();
+  }
+
+  void hideLoading() {
+    DialogueHelper.hideLoading();
   }
 }

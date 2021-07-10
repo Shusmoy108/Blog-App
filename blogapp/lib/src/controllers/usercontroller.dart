@@ -19,7 +19,7 @@ class UserController extends GetxController with ErrorController {
   @override
   void onInit() {
     super.onInit();
-    isLoading.value = true;
+
     if (box.hasData("mobile")) {
       number.value = box.read("mobile");
       name.value = box.read("name");
@@ -27,18 +27,17 @@ class UserController extends GetxController with ErrorController {
       loadBlog();
       islogin.value = true;
     }
-
-    isLoading.value = false;
   }
 
   Future<bool> loadBlog() async {
-    isLoading.value = true;
+    showLoading();
     var res = await BaseClient().get("/blogs/show").catchError(handleError);
+    if (res == null) return false;
     blogs.clear();
     for (var b in res['data']) {
       blogs.add(Blog.fromJson(b));
     }
-    isLoading.value = false;
+    hideLoading();
     //blogs = blogList;
     return true;
     //blogs.value = blogList;
