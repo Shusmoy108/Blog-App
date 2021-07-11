@@ -6,14 +6,14 @@ String blogToJson(Blog data) => json.encode(data.toJson());
 
 class Blog {
   Blog({
-    this.id,
-    this.comments,
-    this.blog,
-    this.time,
-    this.userName,
-    this.userId,
-    this.v,
-    this.supports,
+    required this.id,
+    required this.comments,
+    required this.blog,
+    required this.time,
+    required this.userName,
+    required this.userId,
+    required this.v,
+    required this.supports,
   });
 
   String id;
@@ -52,12 +52,12 @@ class Blog {
 
 class Comment {
   Comment({
-    this.id,
-    this.comment,
-    this.mobile,
-    this.time,
-    this.userName,
-    this.userId,
+    required this.id,
+    required this.comment,
+    required this.mobile,
+    required this.time,
+    required this.userName,
+    required this.userId,
   });
 
   String id;

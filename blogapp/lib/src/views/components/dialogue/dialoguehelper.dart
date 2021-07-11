@@ -32,8 +32,7 @@ class DialogueHelper {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          if (Get.isDialogOpen != null && Get.isDialogOpen)
-                            Get.back();
+                          if (Get.isDialogOpen == true) Get.back();
                         },
                         child: Text("Okay"))
                   ],
@@ -43,7 +42,7 @@ class DialogueHelper {
   }
 
   static showLoading({String message = "Loading..."}) {
-    if (Get.isDialogOpen != null && !Get.isDialogOpen) {
+    if (Get.isDialogOpen == false) {
       Get.dialog(Dialog(
         child: Container(
             color: Colors.white,
@@ -57,6 +56,6 @@ class DialogueHelper {
   }
 
   static hideLoading() {
-    if (Get.isDialogOpen != null && Get.isDialogOpen) Get.back();
+    if (Get.isDialogOpen == true) Get.back();
   }
 }

@@ -46,7 +46,9 @@ class PasswordInput extends StatelessWidget {
                     obsecure ? Icons.visibility : Icons.visibility_off,
                     color: Theme.of(context).primaryColorDark,
                   ),
-                  onPressed: this.changeObsecure),
+                  onPressed: () {
+                    this.changeObsecure();
+                  }),
               //hintText: widget.inputHint,
               hintStyle: TextStyle(
                   fontSize: 18,

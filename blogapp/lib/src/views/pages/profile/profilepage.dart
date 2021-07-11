@@ -152,7 +152,7 @@ class _ProfileState extends State<Profile> {
                       onPressed: () {
                         userController.postBlog(textEditingController.text);
                         textEditingController.clear();
-                        if (Get.isBottomSheetOpen) Get.back();
+                        if (Get.isBottomSheetOpen == true) Get.back();
                       },
                       child: Text("Post",
                           style: TextStyle(

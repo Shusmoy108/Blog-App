@@ -6,10 +6,10 @@ String userToJson(User data) => json.encode(data.toJson());
 
 class User {
   User({
-    this.id,
-    this.name,
-    this.mobile,
-    this.password,
+    required this.id,
+    required this.name,
+    required this.mobile,
+    required this.password,
   });
 
   String id;
