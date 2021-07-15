@@ -42,17 +42,15 @@ class DialogueHelper {
   }
 
   static showLoading({String message = "Loading..."}) {
-    if (Get.isDialogOpen == false) {
-      Get.dialog(Dialog(
-        child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [CircularProgressIndicator(), Text(message)],
-            )),
-      ));
-    }
+    Get.dialog(Dialog(
+      child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [CircularProgressIndicator(), Text(message)],
+          )),
+    ));
   }
 
   static hideLoading() {
