@@ -93,7 +93,7 @@ class _ProfileState extends State<Profile> {
         child: Center(
           child: ElevatedButton(
               onPressed: () {
-                logout();
+                //logout();
                 // Navigator.of(context).push(UpdateProfile(
                 //     accountController.user, this.updateProfile));
               },
