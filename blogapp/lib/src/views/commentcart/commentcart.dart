@@ -1,10 +1,10 @@
+import 'package:blogapp/src/models/blog.dart';
 import 'package:flutter/material.dart';
 
 class CommentCart extends StatelessWidget {
-  final String name;
-  final String comment;
-  final DateTime date;
-  CommentCart(this.name, this.comment, this.date);
+  final Comment comment;
+  final bool delete;
+  CommentCart(this.comment, this.delete);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,21 +16,35 @@ class CommentCart extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(name,
+              Text(comment.userName,
                   style: TextStyle(
                       //color: Colors.white,
                       fontFamily: "Comicsans",
                       fontWeight: FontWeight.bold)),
-              Text("${date.day}/${date.month}/${date.year}",
+              Text(
+                  "${comment.time.day}/${comment.time.month}/${comment.time.year}",
                   style: TextStyle(
                     fontFamily: "Comicsans",
                   ))
             ],
           ),
-          Text(comment,
+          Text(comment.comment,
               style: TextStyle(
                 fontFamily: "Comicsans",
               )),
+          SizedBox(
+            height: 10,
+          ),
+          delete
+              ? Align(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red)),
+                      child: Text("Delete")))
+              : SizedBox(),
           SizedBox(
             height: 10,
           ),

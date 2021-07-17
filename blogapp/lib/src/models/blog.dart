@@ -69,8 +69,8 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
         id: json["_id"],
-        comment: json["comment"] == null ? null : json["comment"],
-        mobile: json["mobile"] == null ? null : json["mobile"],
+        comment: json["comment"] == null ? "" : json["comment"],
+        mobile: json["mobile"] == null ? "" : json["mobile"],
         time: DateTime.parse(json["time"]),
         userName: json["userName"],
         userId: json["userId"],
@@ -78,8 +78,8 @@ class Comment {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "comment": comment == null ? null : comment,
-        "mobile": mobile == null ? null : mobile,
+        "comment": comment,
+        "mobile": mobile,
         "time": time.toIso8601String(),
         "userName": userName,
         "userId": userId,

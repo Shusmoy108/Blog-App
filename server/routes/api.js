@@ -49,7 +49,7 @@ apiRouter
         )
       });
       apiRouter.post("/login", function (req, res) {
-       
+       console.log(req.body);
         User.getUser (req.body.mobile, req.body.password, function (
           status,
           err,
@@ -60,9 +60,9 @@ apiRouter
               //Blogs.getbloglist(function (err, blogs) {
                 return res.json({ success: true, data: user });
             }
-            else if (status===400) {
+            else if (status===400||status==401) {
               //Blogs.getbloglist(function (err, blogs) {
-                return res.json({ success: false, data: user });
+                return res.json({ success: false, msg: err });
             }
             else{
               

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:blogapp/src/controllers/errorcontroller.dart';
 import 'package:blogapp/src/models/blog.dart';
 import 'package:blogapp/src/services/baseclient.dart';
@@ -33,6 +35,7 @@ class UserController extends GetxController with ErrorController {
     var res = await BaseClient().get("/blogs/show").catchError(handleError);
     if (res == null) return false;
     blogs.clear();
+
     for (var b in res['data']) {
       blogs.add(Blog.fromJson(b));
     }
@@ -76,8 +79,7 @@ class UserController extends GetxController with ErrorController {
 
     if (res == null) return false;
     if (!res['success']) {
-      Get.snackbar("Error", "You have entered a wrong password",
-          backgroundColor: Colors.red);
+      Get.snackbar("Error", res['msg'], backgroundColor: Colors.red);
     } else {
       box.write('mobile', mobile);
       var resp = res['data'];

@@ -1,7 +1,9 @@
+import 'package:blogapp/src/controllers/usercontroller.dart';
 import 'package:blogapp/src/models/blog.dart';
 import 'package:blogapp/src/views/commentcart/commentcart.dart';
 import 'package:blogapp/src/views/components/input/commentinput.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BlogCart extends StatelessWidget {
   final Blog blog;
@@ -11,13 +13,16 @@ class BlogCart extends StatelessWidget {
   final Function(String blogId) support;
   final Function(int i) view;
   final TextEditingController commentEditor = new TextEditingController();
+  final UserController userController = Get.find();
   BlogCart(this.blog, this.addComent, this.index, this.view, this.postcomment,
       this.support);
   List<Widget> getcomments() {
     List<Widget> childs = [];
     for (var i = 0; i < blog.comments.length; i++) {
-      childs.add(CommentCart(blog.comments[i].userName,
-          blog.comments[i].comment, blog.comments[i].time));
+      bool delete = (blog.userId.trim() == userController.id.trim()) ||
+          (blog.comments[i].userId.trim() == userController.id.trim());
+
+      childs.add(CommentCart(blog.comments[i], delete));
       childs.add(Divider(
         thickness: 1,
         color: Colors.grey,

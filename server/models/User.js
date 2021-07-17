@@ -10,15 +10,20 @@ const ProfilesSchema = new Schema({
 
 ProfilesSchema.statics.getUser = function (mobile,password,cb) {
   var that = this;
-  this.findOne({"mobile":mobile},function (err, user) {
+  that.findOne({"mobile":mobile},function (err, user) {
     if (err) cb("Server error", null);
     else {
+     if(user==null){
+      cb(401,"You are not signed up. Please sign up.", null);
+     }
+     else{
       if(user.password==password){
         cb(200,null,user);
       }
       else{
-        cb(400,"Wrong password", null);
+        cb(400,"Incorrect password", null);
       }
+     }
      
     }
   });
