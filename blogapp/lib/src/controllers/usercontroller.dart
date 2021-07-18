@@ -115,6 +115,15 @@ class UserController extends GetxController with ErrorController {
     loadBlog();
   }
 
+  Future deleteComment(String commentId, String blogId) async {
+    var res = await BaseClient().post("/blogs/deletecomment", {
+      "commentid": commentId,
+      "blogid": blogId,
+    }).catchError(handleError);
+
+    loadBlog();
+  }
+
   Future myBlogs() async {
     String api = "/blogs/myblog/" + id.value;
     var res = await BaseClient().get(api).catchError(handleError);

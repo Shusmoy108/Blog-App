@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class CommentCart extends StatelessWidget {
   final Comment comment;
   final bool delete;
-  CommentCart(this.comment, this.delete);
+  final Function(String) deleteComment;
+  CommentCart(this.comment, this.delete, this.deleteComment);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +40,9 @@ class CommentCart extends StatelessWidget {
               ? Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        this.deleteComment(this.comment.id);
+                      },
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Colors.red)),

@@ -130,27 +130,29 @@ blogRouter.post("/support", function (req, res) {
  
 });
 blogRouter.post("/deletecomment", function (req, res) {
-  console.log(req.body.id);
-  Blogs.findByIdAndUpdate(
-    req.body.id,
-    { $pull: { comments: { _id: req.body.comment_id } } },
-    function (err, model) {
-      if (err) {
-        console.log(err);
-        return res.status(500).send({ success: false, msg: "databswr Error." });
-      } else {
-        Blogs.getbloglist(function (err, blogs) {
-          if (err) {
-            return res
-              .status(500)
-              .send({ success: false, msg: "Server Error." });
-          } else {
-            return res.json({ success: true, data: blogs });
-          }
-        });
-      }
+  Blogs.deleteComment( req.body.blogid,req.body.commentid, function (
+    status,
+    err,
+    blog
+  ) {
+    if(status===200){
+      Blogs.getbloglist(function (status,err, blogs) {
+        if (err) {
+          return res.status(500).send({ success: false, msg: "Server Error." });
+        } else {
+          return res.json({ success: true, data: blogs });
+        }
+      });
+      
     }
-  );
+    else if(status===400){
+      return res.json({ success: false, data: err });
+    }
+    else {
+      return res.status(500).send({ success: false, msg: "Server Error." });
+    } 
+
+  });
 });
 
 module.exports = blogRouter;

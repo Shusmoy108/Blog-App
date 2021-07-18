@@ -81,6 +81,21 @@ BlogSchema.statics.addComment = function (comment ,blogid,cb) {
     });
     
 };
+BlogSchema.statics.deleteComment = function ( blogid, commentid,cb) {
+  var that = this;
+that.findByIdAndUpdate(
+  blogid,
+  { $pull: { comments: { _id: commentid } } },
+  function (err, model) {
+    if (err) {
+      console.log(err);
+      cb(500,err, null);
+    } else {
+      cb(200,null, model);
+    }
+  }
+);
+}
 BlogSchema.statics.addSupport = function (support ,blogid,mobile,cb) {
   var that = this;
   // that.findByIdAndUpdate(

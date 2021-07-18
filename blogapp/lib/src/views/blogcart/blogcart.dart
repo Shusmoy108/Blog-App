@@ -16,13 +16,18 @@ class BlogCart extends StatelessWidget {
   final UserController userController = Get.find();
   BlogCart(this.blog, this.addComent, this.index, this.view, this.postcomment,
       this.support);
+
+  void deleteComment(String commentId) {
+    userController.deleteComment(commentId, blog.id);
+  }
+
   List<Widget> getcomments() {
     List<Widget> childs = [];
     for (var i = 0; i < blog.comments.length; i++) {
       bool delete = (blog.userId.trim() == userController.id.trim()) ||
           (blog.comments[i].userId.trim() == userController.id.trim());
 
-      childs.add(CommentCart(blog.comments[i], delete));
+      childs.add(CommentCart(blog.comments[i], delete, deleteComment));
       childs.add(Divider(
         thickness: 1,
         color: Colors.grey,
